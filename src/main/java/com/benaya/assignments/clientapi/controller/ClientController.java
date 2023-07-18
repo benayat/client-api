@@ -9,13 +9,14 @@ import com.benaya.assignments.clientapi.validate.annotations.ValidPhoneNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/client")
+@CrossOrigin(methods = {RequestMethod.OPTIONS, RequestMethod.DELETE, RequestMethod.GET, RequestMethod.HEAD, RequestMethod.PUT, RequestMethod.POST}, origins = "*")
 public class ClientController implements ClientApi {
 
     private final ClientService clientService;
@@ -32,8 +33,8 @@ public class ClientController implements ClientApi {
     }
     @Override
     @GetMapping("/all")
-    public List<Client> getAllClients() {
-        return clientService.getAllClients();
+    public Page<Client> getAllClients(Pageable pageable) {
+        return clientService.getAllClients(pageable);
     }
     @Override
     @GetMapping("/byId")
@@ -43,32 +44,32 @@ public class ClientController implements ClientApi {
 
     @Override
     @GetMapping("/byName")
-    public List<Client> getClientsByName(@Valid @RequestParam String name) {
+    public Page<Client> getClientsByName(@Valid @RequestParam String name) {
         return clientService.getClientsByFullName(name);
     }
     @Override
     @GetMapping("/byFirstName")
-    public List<Client> getClientsByFirstName(@RequestParam String firstName) {
+    public Page<Client> getClientsByFirstName(@RequestParam String firstName) {
         return clientService.getClientsByFirstName(firstName);
     }
     @Override
     @GetMapping("/byLastName")
-    public List<Client> getClientsByLastName(@RequestParam String lastName) {
+    public Page<Client> getClientsByLastName(@RequestParam String lastName) {
         return clientService.getClientsByLastName(lastName);
     }
     @Override
     @GetMapping("/byIp")
-    public List<Client> getClientsByIp(@ValidIpV4Address @RequestParam String ip) {
+    public Page<Client> getClientsByIp(@ValidIpV4Address @RequestParam String ip) {
         return clientService.getClientsByIp(ip);
     }
     @Override
     @GetMapping("/byPhone")
-    public List<Client> getClientsByPhone(@ValidPhoneNumber @RequestParam String phone) {
+    public Page<Client> getClientsByPhone(@ValidPhoneNumber @RequestParam String phone) {
         return clientService.getClientsByPhone(phone);
     }
     @Override
     @GetMapping("/byEmail")
-    public List<Client> getClientsByEmail(@Email @RequestParam String email) {
+    public Page<Client> getClientsByEmail(@Email @RequestParam String email) {
         return clientService.getClientsByEmail(email);
     }
 }

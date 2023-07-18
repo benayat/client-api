@@ -1,17 +1,18 @@
 package com.benaya.assignments.clientapi.repository;
 
 import com.benaya.assignments.clientapi.model.Client;
+import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
 
 public interface ClientRepository extends MongoRepository<Client, String> {
-    List<Client> findAllByName(String fullName);
-    List<Client> findAllByNameEndingWith(String lastName);
-    List<Client> findAllByNameStartingWith(String firstName);
-    List<Client> findAllByIp(String ip);
-    List<Client> findAllByPhone(String phone);
-    List<Client> findAllByEmail(String email);
+    Page<Client> findAllByName(String fullName);
+    Page<Client> findAllByNameEndingWith(String lastName);
+    Page<Client> findAllByNameStartingWith(String firstName);
+    Page<Client> findAllByIp(String ip);
+    Page<Client> findAllByPhone(String phone);
+    Page<Client> findAllByEmail(String email);
 
 
 }
