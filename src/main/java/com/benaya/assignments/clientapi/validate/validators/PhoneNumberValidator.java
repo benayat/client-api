@@ -10,8 +10,7 @@ public class PhoneNumberValidator implements ConstraintValidator<ValidPhoneNumbe
         if (phoneNumber == null || phoneNumber.isEmpty()) {
             return true;
         }
-        String regex = "^\\+972\\s(5\\d\\s\\d{7}|[2-4]\\d\\s\\d{6})$";
-//        String regex = "^[0-9]{10,15}$";
+        String regex = "^\\+?(972|0)(\\-)?0?(([23489]{1}\\d{7})|[5]{1}\\d{8})$";
         return phoneNumber.matches(regex);
     }
 

@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Constraint(validatedBy = PhoneNumberValidator.class)
-@Target({ElementType.METHOD, ElementType.FIELD})
+@Target({ElementType.PARAMETER, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPhoneNumber {
     String message() default "Invalid phone number";

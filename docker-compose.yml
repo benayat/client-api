@@ -2,15 +2,13 @@ version: "3.7"
 services:
   client-api:
     container_name: "client-api"
-    build:
-        context: .
-        dockerfile: Dockerfile
-    #    restart: "on-failure"
+    image: client-api:0.0.2
     restart: "on-failure"
     environment:
       INIT_DATABASE: true
-      DEBUG_MODE: INFO
-      MONGO_INIT_FILE_PATH: /app/humans-ex-users.csv
+      INIT_DATABASE_DUMP: /app/humanz-ex-users.csv
+      MONGO_HOST: mongo_db
+      MONGO_PORT: 27017
     #    healthcheck:
     #      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
     #      interval: 25s
@@ -20,15 +18,15 @@ services:
       mongo_db:
         condition: service_healthy
     volumes:
-      - ./src/main/resources/humans-ex-users.csv:/app/humans-ex-users.csv
+      - ./src/main/resources/humanz-ex-users.csv:/app/humanz-ex-users.csv
   mongo_db:
     container_name: "mongo_db"
-    image: "mongo:latest"
+    image: "mongo:4.4.17"
     restart: "unless-stopped"
     ports:
       - "27017:27017"
-    environment:
-      :
+#    environment:
+#      :
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/humanzdb --quiet
       interval: 1s
