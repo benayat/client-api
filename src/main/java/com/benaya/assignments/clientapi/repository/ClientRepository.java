@@ -4,7 +4,6 @@ import com.benaya.assignments.clientapi.model.Client;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.List;
 
 public interface ClientRepository extends MongoRepository<Client, String> {
     Page<Client> findAllByName(String fullName);
