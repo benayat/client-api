@@ -1,5 +1,6 @@
 package com.benaya.assignments.clientapi.model;
 
+import com.benaya.assignments.clientapi.validate.annotations.ValidIpV4Address;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -17,6 +18,7 @@ public class IpGeoLocation  {
     @Id
     @Indexed(unique = true)
     @JsonProperty("query")
+    @ValidIpV4Address
     private final String ip;
     @JsonProperty("city")
     private final String city;

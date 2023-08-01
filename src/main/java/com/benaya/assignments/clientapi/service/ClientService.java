@@ -1,7 +1,9 @@
 package com.benaya.assignments.clientapi.service;
 
 import com.benaya.assignments.clientapi.exception.ClientNotFoundException;
+import com.benaya.assignments.clientapi.exception.FilterNotFoundException;
 import com.benaya.assignments.clientapi.model.Client;
+import com.benaya.assignments.clientapi.model.FilterType;
 import com.benaya.assignments.clientapi.repository.ClientRepository;
 import com.benaya.assignments.clientapi.validate.annotations.ValidIsraeliId;
 import jakarta.validation.Valid;
@@ -42,27 +44,37 @@ public class ClientService {
     public Client getClientById(@ValidIsraeliId String id) {
         return clientRepository.findById(id).orElseThrow(ClientNotFoundException::new);
     }
-    public Page<Client> getClientsByLastName(String lastName) {
-        return clientRepository.findAllByNameEndingWith(lastName);
+    public Page<Client> filterClientsWithPrefix(Pageable pageable, FilterType filterField, String prefix) {
+        return switch (filterField){
+            case ID -> clientRepository.findAllByIdStartingWith(pageable, prefix);
+            case IP -> clientRepository.findAllByIpStartingWith(pageable, prefix);
+            case PHONE -> clientRepository.findAllByPhoneStartingWith(pageable, prefix);
+            case EMAIL -> clientRepository.findAllByEmailStartingWith(pageable, prefix);
+            case NAME -> clientRepository.findAllByNameStartingWith(pageable, prefix);
+            default -> throw new FilterNotFoundException();
+        };
+    }
+    public Page<Client> getClientsByLastName(Pageable pageable, String lastName) {
+        return clientRepository.findAllByNameEndingWith(pageable, lastName);
     }
 
-    public Page<Client> getClientsByFirstName(String firstName) {
-        return clientRepository.findAllByNameStartingWith(firstName);
+    public Page<Client> getClientsByFirstName(Pageable pageable, String firstName) {
+        return clientRepository.findAllByNameStartingWith(pageable, firstName);
     }
 
-    public Page<Client> getClientsByFullName(String fullName) {
-        return clientRepository.findAllByName(fullName);
+    public Page<Client> getClientsByFullName(Pageable pageable, String fullName) {
+        return clientRepository.findAllByName(pageable, fullName);
     }
 
-    public Page<Client> getClientsByIp(String ip) {
-        return clientRepository.findAllByIp(ip);
+    public Page<Client> getClientsByIp(Pageable pageable, String ip) {
+        return clientRepository.findAllByIp(pageable, ip);
     }
 
-    public Page<Client> getClientsByPhone(String phone) {
-        return clientRepository.findAllByPhone(phone);
+    public Page<Client> getClientsByPhone(Pageable pageable, String phone) {
+        return clientRepository.findAllByPhone(pageable, phone);
     }
 
-    public Page<Client> getClientsByEmail(String email) {
-        return clientRepository.findAllByEmail(email);
+    public Page<Client> getClientsByEmail(Pageable pageable, String email) {
+        return clientRepository.findAllByEmail(pageable, email);
     }
 }

@@ -2,6 +2,7 @@ package com.benaya.assignments.clientapi.controller;
 
 import com.benaya.assignments.clientapi.api.ClientApi;
 import com.benaya.assignments.clientapi.model.Client;
+import com.benaya.assignments.clientapi.model.FilterType;
 import com.benaya.assignments.clientapi.service.ClientService;
 import com.benaya.assignments.clientapi.validate.annotations.ValidIpV4Address;
 import com.benaya.assignments.clientapi.validate.annotations.ValidIsraeliId;
@@ -22,54 +23,48 @@ public class ClientController implements ClientApi {
     private final ClientService clientService;
 
     @Override
-    @PostMapping("/add")
     public void addOrUpdateClient(@Valid @RequestBody Client client) {
         clientService.addClient(client);
     }
     @Override
-    @DeleteMapping("/delete")
     public void deleteClient(@ValidIsraeliId @RequestParam String id) {
         clientService.deleteClient(id);
     }
     @Override
-    @GetMapping("/all")
     public Page<Client> getAllClients(Pageable pageable) {
         return clientService.getAllClients(pageable);
     }
     @Override
-    @GetMapping("/byId")
     public Client getClientById(@ValidIsraeliId @RequestParam String id) {
         return clientService.getClientById(id);
     }
 
     @Override
-    @GetMapping("/byName")
-    public Page<Client> getClientsByName(@Valid @RequestParam String name) {
-        return clientService.getClientsByFullName(name);
+    public Page<Client> getClientsByName(Pageable pageable, @Valid @RequestParam String name) {
+        return clientService.getClientsByFullName(pageable, name);
     }
     @Override
-    @GetMapping("/byFirstName")
-    public Page<Client> getClientsByFirstName(@RequestParam String firstName) {
-        return clientService.getClientsByFirstName(firstName);
+    public Page<Client> getClientsByFirstName(Pageable pageable, @RequestParam String firstName) {
+        return clientService.getClientsByFirstName(pageable, firstName);
     }
     @Override
-    @GetMapping("/byLastName")
-    public Page<Client> getClientsByLastName(@RequestParam String lastName) {
-        return clientService.getClientsByLastName(lastName);
+    public Page<Client> getClientsByLastName(Pageable pageable, @RequestParam String lastName) {
+        return clientService.getClientsByLastName(pageable, lastName);
     }
     @Override
-    @GetMapping("/byIp")
-    public Page<Client> getClientsByIp(@ValidIpV4Address @RequestParam String ip) {
-        return clientService.getClientsByIp(ip);
+    public Page<Client> getClientsByIp(Pageable pageable, @ValidIpV4Address @RequestParam String ip) {
+        return clientService.getClientsByIp(pageable, ip);
     }
     @Override
-    @GetMapping("/byPhone")
-    public Page<Client> getClientsByPhone(@ValidPhoneNumber @RequestParam String phone) {
-        return clientService.getClientsByPhone(phone);
+    public Page<Client> getClientsByPhone(Pageable pageable, @ValidPhoneNumber @RequestParam String phone) {
+        return clientService.getClientsByPhone(pageable, phone);
     }
     @Override
-    @GetMapping("/byEmail")
-    public Page<Client> getClientsByEmail(@Email @RequestParam String email) {
-        return clientService.getClientsByEmail(email);
+    public Page<Client> getClientsByEmail(Pageable pageable, @Email @RequestParam String email) {
+        return clientService.getClientsByEmail(pageable, email);
+    }
+    @Override
+    public Page<Client> filterClientsWithPrefix(Pageable pageable, @RequestParam String filterField, @RequestParam String prefix) {
+        return clientService.filterClientsWithPrefix(pageable, FilterType.get(filterField), prefix);
     }
 }
