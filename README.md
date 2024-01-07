@@ -2,6 +2,8 @@
 
 This is a Spring Boot REST API application with a MongoDB database. The application is designed around a `Client` model, which includes fields for `id`, `ip`, `email`, and `name`.
 
+# Security
+I used simple username/password authentication, with user and admin users(mainly to practice the new lambda dsl for spring security). </br>
 ## Model
 
 The `Client` model includes the following fields:
